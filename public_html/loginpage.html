@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<!--
+Student Info: Name=Pavanitha Kalyanam, ID=19361 
+Subject: CS595(G)_GrabUrOffer_Spring_2017 
+Author: KrishnaReddy 
+Filename: loginpage.html 
+Date and Time: Mar 11, 2017 6:44:32 PM  
+Project Name: GrabUrOfferProject 
+--> 
+<html>
+    <head>
+        <title>Login Page</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="login.css" />
+    </head>
+    <body>
+        <div class="header">
+            <img src="images/logo.png" style="width:150px;height:75px;" />
+            <h1 style="text-align:center;"><i>Login Page</i></h1>
+        </div>
+        <div class="login_form">
+            <form method="post" >
+                <p>
+                    <label for="username">Username</label>
+                    <input name="username" type="text" id="username" placeholder="Enter Username" size="20"/>
+                </p>
+                <p>
+                    <label for="password">Password:</label>
+                    <input name="password" type="password" id="password" placeholder="Enter Password" size="30"/>
+                </p>
+                
+                <div>
+                    <button name="submit" type="submit" value="Submit" onclick="return validateLogin()">Submit</button>
+
+                    <button type="button">Cancel</button>
+                    <span>Forgot <a href="#0.1_">password?</a></span>
+                </div>  
+
+
+            </form>
+        </div>
+
+        <script type="text/javascript">
+            function loginUser(user) {
+                console.log("saving the user details...");
+                $('#cart').css({'color': 'red', 'font-weight': 'bold'});
+                $('#cart').html("Sending your offers to your registered email...");
+                $.ajax({
+                    url: 'http://localhost:3000/login',
+                    type: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    data: JSON.stringify(user),
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data);
+                        localStorage.setItem('loggedInUser',JSON.stringify(data));
+                        $('#err').html("Congratulations !!.. your login successful.." + data.username);
+                    },
+                    error: function (textStatus) {
+                        console.log("error while saving user information...");
+                        $('#err').html("error occured while saving the user info..." + textStatus);
+                    }
+                });
+            }
+            ;
+
+            $('#regForm').submit(function () {
+                // get all the inputs into an array.
+                var $inputs = $('#myForm :input');
+
+                // not sure if you wanted this, but I thought I'd add it.
+                // get an associative array of just the values.
+                var values = {};
+                $inputs.each(function () {
+                    values[this.name] = $(this).val();
+                    console.log('Form Name:' + this.name + ', Value :' + this.val());
+                });
+
+            });
+
+            function validateLogin() {
+                var username = $('#username').val();
+                var password = $('#password').val();
+                
+                if (username === undefined || username === '') {
+                    $('#err').html('please enter username !!');
+                    return false;
+                }
+                if (password === undefined || password === '') {
+                    console.log('password: ' + password);
+                    $('#err').html('Please enter password !!');
+                    return false;
+                }
+                
+                var user = {};
+                user.username = username;
+                user.password = password;
+                console.log('User Login Obj : ' + JSON.stringify(user));
+
+                loginUser(user);
+            }
+
+        </script>
+    </body>
+</html>

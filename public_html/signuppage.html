@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<!--
+Student Info: Name=Pavanitha Kalyanam, ID=19361 
+Subject: CS595(G)_GrabUrOffer_Spring_2017 
+Author: KrishnaReddy 
+Filename: signuppage.html 
+Date and Time: Mar 11, 2017 12:40:42 PM  
+Project Name: GrabUrOfferProject 
+--> 
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <script type="text/JavaScript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="signup.css" />
+    </head>
+    <body>
+        <div class="header">
+            <img src="images/logo.png" alt="GrabUrOffer logo" width="100" height="75">
+            <h1 style="text-align:center;"><i>Signup Page</i></h1>
+        </div>
+        <div id="productsView">
+            <p id="err"></p>
+            <form action=" " method="post" name="regForm" >
+                <p>
+                    <label for="username">User Name:</label>
+                    <input name="username" type="text" id="username" placeholder="Enter User name" size="30"/>
+                </p>
+                <p>
+                    <label for="email">E-mail:</label>
+                    <input name="email" type="text" id="email" placeholder="Enter E-mail ID" size="30"/>
+                </p>
+                <p>
+                    <label for="password">Password:</label>
+                    <input name="password" type="password" id="password" placeholder="Enter Password" size="30"/>
+                </p>
+                <p>
+                    <label for="cpassword">Confirm Password:</label>
+                    <input name="cpassword" type="password" id="cpassword" placeholder="Enter Password" size="30"/>
+                </p>
+                <p>By creating an account you agree to our <a href="terms.php">Terms & Conditions</a>.</p>
+                <div class="clearfix">
+
+                    <button type="button" class="cancelbtn">Cancel</button>
+                    <button name="submit" class="signupbtn" type="button" value="Submit" onclick="return validateRegistration()">Submit</button>
+                </div>
+            </form>
+        </div>
+        <!--<div id="productsView"></div>-->
+        <script type="text/javascript">
+            function signupUser(user) {
+                console.log("saving the user details...");
+                $('#cart').css({'color': 'red', 'font-weight': 'bold'});
+                $('#cart').html("Sending your offers to your registered email...");
+                $.ajax({
+                    url: 'http://localhost:3333/signup',
+                    type: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    data: JSON.stringify(user),
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data);
+                        $('#err').html(data.status+', '+data.message);
+                        setTimeout(function(){
+                             window.location = "login.html";
+                        },2000);
+                    },
+                    error: function (textStatus) {
+                        console.log("error while saving player...");
+                        $('#err').html("error occured while saving the user info..." + textStatus);
+                    }
+                });
+            }
+            ;
+
+            $('#regForm').submit(function () {
+                // get all the inputs into an array.
+                var $inputs = $('#myForm :input');
+
+                // not sure if you wanted this, but I thought I'd add it.
+                // get an associative array of just the values.
+                var values = {};
+                $inputs.each(function () {
+                    values[this.name] = $(this).val();
+                    console.log('Form Name:' + this.name + ', Value :' + this.val());
+                });
+
+            });
+
+            function validateRegistration() {
+
+                var username = $('#username').val();
+                var email = $('#email').val();
+                var password = $('#password').val();
+                var cpassword = $('#cpassword').val();
+                
+                if (!username) {
+                    $('#err').html('please enter username !!');
+                    return false;
+                }
+                if (email === undefined || email === '') {
+                    $('#err').html('please enter email id !!');
+                    return false;
+                } else {
+                    var emailID = $('#email').val();
+                    var atpos = emailID.indexOf("@");
+                    var dotpos = emailID.lastIndexOf(".");
+                    if (atpos < 1 || (dotpos - atpos < 2)) {
+                        $('#err').html('Please enter correct email ID!!');
+                        return false;
+                    }
+                }
+                if (password === undefined || password === '') {
+                    console.log('password: ' + password);
+                    $('#err').html('Please enter password !!');
+                    return false;
+                } else if (password.length < 8) {
+                    $('#err').html('Password length should be atleast 8!!');
+                    return false;
+                }
+
+                if (cpassword === undefined) {
+                    $('#err').html('Please enter confirm password !!');
+                    return false;
+                }
+
+                if (!(password).match(cpassword)) {
+                    $('#err').html("Your password don't match. try again");
+                    return false;
+                }
+                var user = {};
+                user.username = username;
+                user.email = email;
+                user.password = password;
+                user.confirmpassword = cpassword;
+                console.log('User Registration Obj : '+JSON.stringify(user));
+
+                signupUser(user);
+            }
+
+        </script>
+    </body>
+</html>

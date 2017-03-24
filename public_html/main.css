@@ -1,0 +1,233 @@
+/*
+Student Info: Name=Pavanitha Kalyanam, ID=19361 
+Subject: CS595(G)_GrabUrOffer_Spring_2017 
+Author: KrishnaReddy 
+Filename: main.css 
+Date and Time: Mar 7, 2017 12:09:00 PM  
+Project Name: GrabUrOfferProject 
+*/ 
+/* 
+   Created on : Mar 7, 2017, 12:09:00 PM
+   Author     : KrishnaReddy
+*/
+header,nav,article,section,footer,aside{
+display:block;
+}
+.top ul li {
+	float:right;
+	padding:10px;
+	margin-right:60px;
+	list-style:none;
+	display:inline-block;
+	text-decoration:none;
+	text-align:none;
+}
+.top ul li a{
+	list-style:none;
+	test-decoration:none;
+	font-style:italic;
+	color:red;
+}
+.container{
+	
+	margin:0px auto;
+}
+
+
+
+.clear{
+	clear:both;
+}
+.logo{
+	width:278px;
+	height:174px;
+	float:left;
+	margin:auto;
+}
+.back{
+	width:900px;
+	height:200px;
+	float:left;
+}
+.im{
+	width:150px;
+	height:150px;
+	float:left;
+}
+
+.head ul li {
+	list-style:none;
+	background-color:red;
+	
+}
+.head ul li a{
+	display:inline-block;
+	color:red;
+	float:left;
+	text-decoration:none;
+	padding:10px 25px 10px 25px ;
+border:1px solid red;
+margin:70px;
+font-style:italic;
+font-size:20px;
+background-color:white;
+margin-left:160px;
+
+}
+.top_nav ul {
+	list-style:none;
+	width:100%;
+
+}
+
+.top_nav ul li {
+	float:left;
+	font-size:16px;
+	
+text-decoration:none;
+float:left;
+display:inline-block;
+padding:12px 34px 6px 34px;
+margin-top:10px;
+background-color:white;
+border:1px solid red;
+font-style:italic;
+margin-left:-35px;
+}
+.top_nav ul li a{
+	margin-top:2px;
+	margin-left:0px;
+	color:red;
+	text-decoration:none;
+	float:both;
+	text-align:center;
+}
+	
+
+.content{
+	margin-top:-10px;
+	display:inline-block;
+}
+
+
+.top_nav{
+	
+	padding-top:-5px;
+}
+.search_wrapper{
+	padding:5px 10px 40px 8px ;
+	margin-top:0px;
+	height:20px;
+	float:right;
+	margin-right:180px;
+}
+.im{
+	border:1px solid red;
+	padding:0px 2px 2px 2px;
+	width:250px;
+	height:250px;
+}
+#search{
+	float:left;
+width:200px;
+padding:11px;
+border:1px solid red;
+margin-left:15px;
+
+font-style:italic;
+
+}
+#submit{
+background-image:url();
+background-color:red;
+padding:10px;
+border:1px solid red;
+margin-left:-5px;
+}
+.foot{
+	float:left;
+	list-style:none;
+	
+}
+#email{
+	float:center;
+	width:250px;
+	margin-left:350px;
+	border:2px solid red;
+	padding:5px 5px 5px 5px;
+
+}
+.signup{
+	float:center;
+	margin-left:100px;
+	border:2px solid red;
+	padding:5px 5px 5px 5px;
+	color:white;
+	background-color:red;
+}
+#productsData{
+    background: #fff;
+    margin: 50px 20px 20px;
+    height: 420px;
+    overflow-y: scroll;
+    border: 1px solid transparent;
+    border-radius: 5px;
+}
+
+.prodDesc, .prodImage{ 
+    min-height: 120px;
+    min-width: 120px;
+    padding: 5px;
+    margin: 5px;
+    display: table-cell;
+    float: left;
+}
+.prodImage{
+    height: 120px;
+    width: 90%;
+    overflow: hidden;
+}
+
+.prodBox{
+    min-height: 120px;
+    max-width: 300px;
+    padding-bottom: 20px;
+    background: blanchedalmond;
+    display: inline-block;
+    margin: 10px;
+    padding 5px;
+}
+label{
+    display: block;
+}
+span{
+    display: inline-block;
+    font-size: 14px;
+    
+}
+tr{
+    display: table-row;
+}
+td{
+    display: table-cell;
+}
+table{
+    font-size: 12px;
+    font-family: sans-serif;
+}
+.nameCol{
+    width: 35%;
+    padding : 2px;
+    font-style: italic;
+    font-weight: bold;
+}
+.valCol{
+    padding : 2px;
+}
+
+.category{ 
+    margin: 51px 0px 0px 30px;
+}
+.errMsg{
+    color: red;
+}

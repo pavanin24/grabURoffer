@@ -1,0 +1,86 @@
+h2 {color: red;}
+.header img {
+  float: left;
+  width: 100px;
+  height: 100px;
+  background: #555;
+}
+
+.header h1 {
+ position:relative;
+vertical-align: middle;
+text-align:center;
+  top: 18px;
+  left: 10px;
+color:red;
+
+}
+.signup_form 
+{ 
+	
+height:350px;
+	
+width:250px;
+	
+margin:auto;
+	
+border:1px #CCC solid;
+	
+padding:10px;
+
+}
+
+
+.signup_form input 
+{ 
+	
+padding:5px;
+	
+margin:5px
+ 
+}
+.signup input:before
+{
+     content:"*" ;
+     color:red   
+     }
+
+/* Set a style for all buttons */
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+    padding: 14px 20px;
+    background-color: #f44336;
+}
+
+/* Float cancel and signup buttons and add an equal width */
+.cancelbtn,.signupbtn {
+    float: left;
+    width: 50%;
+}
+
+/* Add padding to container elements */
+
+
+/* Clear floats */
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+/* Change styles for cancel button and signup button on extra small screens */
+@media screen and (max-width: 300px) {
+    .cancelbtn, .signupbtn {
+       width: 100%;
+    }
+}

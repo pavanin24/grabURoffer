@@ -1,0 +1,12 @@
+<#if licenseFirst??> 
+${licenseFirst}
+</#if>
+${licensePrefix}Student Info: Name=Pavanitha Kalyanam, ID=19361 
+${licensePrefix}Subject: CS595(G)_GrabUrOffer_Spring_2017 
+${licensePrefix}Author: ${user} 
+${licensePrefix}Filename: ${nameAndExt} 
+${licensePrefix}Date and Time: ${date} ${time}  
+${licensePrefix}Project Name: ${project.name} 
+<#if licenseLast??> 
+${licenseLast} 
+</#if> 

@@ -1,0 +1,197 @@
+/*
+Student Info: Name=Pavanitha Kalyanam, ID=19361 
+Subject: CS595(G)_GrabUrOffer_Spring_2017 
+Author: KrishnaReddy 
+Filename: offers.css 
+Date and Time: Feb 20, 2017 12:32:36 AM  
+Project Name: GrabUrOfferProject 
+*/ 
+/* 
+   Created on : Feb 20, 2017, 12:32:36 AM
+   Author     : KrishnaReddy
+*/
+body {
+	margin:80px 80px 100px 100px;
+        background: lightgray;
+}
+header {
+    position: fixed;
+    top: 1px;
+    left: 0px;
+    width: 100%;
+    height: 75px;
+    color: #E91E63;
+    background: maroon;
+}
+div#header img {
+  float: left;
+  width: 100px;
+  height: 75px;
+  background: #555;
+  left: 10px;
+}
+
+header h1 {
+    top: 10px;
+    left: 110px;
+    position: absolute;
+    font-style: italic;
+}
+footer {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    height:10px;
+    color: #E91E63;
+    background: maroon;
+    padding: 20px;
+}
+#productsData{
+    background: #fff;
+    margin: 50px 20px 20px;
+    height: 420px;
+    overflow-y: scroll;
+    border: 1px solid transparent;
+    border-radius: 5px;
+}
+
+.prodDesc, .prodImage{ 
+    min-height: 120px;
+    min-width: 120px;
+    padding: 5px;
+    margin: 5px;
+    display: table-cell;
+    float: left;
+}
+.prodImage{
+    height: 120px;
+    width: 90%;
+    overflow: hidden;
+}
+
+.prodBox{
+    min-height: 120px;
+    max-width: 300px;
+    padding-bottom: 20px;
+    background: blanchedalmond;
+    display: inline-block;
+    margin: 10px;
+    padding 5px;
+}
+label{
+    display: block;
+}
+span{
+    display: inline-block;
+    font-size: 14px;
+    
+}
+tr{
+    display: table-row;
+}
+td{
+    display: table-cell;
+}
+table{
+    font-size: 12px;
+    font-family: sans-serif;
+}
+.nameCol{
+    width: 35%;
+    padding : 2px;
+    font-style: italic;
+    font-weight: bold;
+}
+.valCol{
+    padding : 2px;
+}
+
+.category{ 
+    margin: 51px 0px 0px 30px;
+}
+.errMsg{
+    color: red;
+}
+#add2Cart{
+    color: #E91E63;
+    background: lightsalmon;
+    border-radius: 0.1px;
+    padding: 2px;
+}
+#imageId{
+    width: 280px;
+    height: 125px;
+    margin: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+#productsView{
+    width: 75%;
+    display: table-row;
+}
+.cartView{
+    display: table-cell;
+    width: 20%;
+}
+.offerView{
+    display: table-cell;
+    width: 80%;
+}
+#cart{
+    border: 1px solid transparent;
+    width: 20%;
+    background: #fff;
+    min-height: 300px;
+    min-width: 200px;
+    position: fixed;
+    top: 170px;
+    height: 400px;
+    overflow-y: scroll;
+    border-radius: 5px;
+}
+.cartHeader{
+    margin: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    background: #c00;
+    
+}
+li{
+    width: 80%;
+    min-height:25px;
+    border-bottom: dotted grey;
+}
+.cItem{
+    display: flex;
+    position: relative;
+    border: 1px solid #d6d6d6;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: #eeefff;
+}
+
+#checkout{
+    padding: 5px;
+    line-height: 1.5;
+    border-radius: 3px;
+    margin: 10px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    font-size: 15px;
+    color: #fff;
+    background-color: #c00;
+    border: 1px solid transparent;
+}
+span{
+    color: blue;
+    font-weight: bold;
+}
+.ui-dialog-osx {
+    -moz-border-radius: 0 0 8px 8px;
+    -webkit-border-radius: 0 0 8px 8px;
+    border-radius: 0 0 8px 8px; border-width: 0 8px 8px 8px;
+}
