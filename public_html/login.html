@@ -11,16 +11,17 @@ Project Name: GrabUrOfferProject
     <head>
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
-        <script type="text/JavaScript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+        <script type="text/JavaScript" src="jquery.min.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="signup.css" />
+        <link rel="stylesheet" type="text/css" href="login.css" />
+
     </head>
     <body>
         <div class="header">
-            <img src="images/logo.png" alt="GrabUrOffer logo" width="100" height="75">
-            <h1 style="text-align:center;"><i>Signup Page</i></h1>
+            <img src="images/logo.png" style="width:150px;height:75px;" />
+            <h1 style="text-align:center;"><i>Login Page</i></h1>
         </div>
-        <div>
+        <div class="login_form">
             <p id="err"></p>
             <form action=" " method="post" name="regForm" >
                 <p>
@@ -33,9 +34,8 @@ Project Name: GrabUrOfferProject
                     <input name="password" type="password" id="password" placeholder="Enter Password" size="30"/>
                 </p>
                <div class="clearfix">
-
+                    <button name="submit" type="button" value="Submit" onclick="return validateLogin()">Submit</button>
                     <button type="button" class="cancelbtn">Cancel</button>
-                    <button name="submit" class="signupbtn" type="button" value="Submit" onclick="return validateLogin()">Submit</button>
                 </div>
             </form>
         </div>
@@ -57,7 +57,7 @@ Project Name: GrabUrOfferProject
                         localStorage.setItem('loggedInUser',JSON.stringify(data));
                         $('#err').html(data.message);
                         setTimeout(function(){
-                             window.location = "Category.html";
+                             window.location = "index.html";
                         },2000);
                     },
                     error: function (res) {
@@ -100,7 +100,7 @@ Project Name: GrabUrOfferProject
                 user.username = username;
                 user.password = password;
                 console.log('User Registration Obj : '+JSON.stringify(user));
-
+/*select * from offer where name like '%offer%' OR DESCRIPTION like '%offer%' AND STR_TO_DATE(END_DATE, '%m/%d/%Y')  > NOW()*/
                 loginUser(user);
             }
 

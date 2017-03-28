@@ -1,0 +1,34 @@
+//- 
+    Student Info: Name=Pavanitha Kalyanam, ID=19361 
+    Subject: CS595(G)_GrabUrOffer_Spring_2017 
+    Author: KrishnaReddy 
+    Filename: html.jade 
+    Date and Time: Mar 26, 2017 4:50:44 PM  
+    Project Name: GrabUrOfferProject 
+      
+doctype html
+html(lang="en")
+  head
+    title Your grabbed offers
+  body   
+    div(class="main",id="main")
+        h3 Congrats&nbsp; 
+            span(class="captalize") #{locals.name}  
+             | Here are your shortlisted offers
+
+        - for offer in locals.offers
+            div(id="pbox" class="prodBox")
+                div(id="pimg" class="prodImage") 
+                    img(src="//payroll-s4.intuitstatic.com/showroom_cms/image/content/dam/intuit/quickbooks/brand_x/pages/payroll/payroll-home/SPOT_US_Connect_2_88_53_4db7c778-6ddb-4a0f-b270-339dc46e8979.png" alt="Offer image") 
+                    div(id="pdesc" class="prodDesc")  
+                        table(id="infoTable" class="dataTable") 
+                            tbody 
+                                tr 
+                                    td(class="nameCol") Name:
+                                    td(class="ValCol") #{offer.NAME}
+                                tr 
+                                    td(class="nameCol") Desc :
+                                    td(class="ValCol") #{offer.DESCRIPTION} 
+                                tr 
+                                    td(class="nameCol") Expires On :
+                                    td(class="ValCol") #{offer.END_DATE}    

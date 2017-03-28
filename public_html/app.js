@@ -10,12 +10,13 @@ var express = require("express");
 var mysql = require('mysql');
 var bodyParser = require('body-parser');
 var ejs = require('ejs');
-//to send email to customers
-var nodemailer = require('nodemailer');
 var crypto = require('crypto');
 var router = express.Router();
-
+var mailer = require('./mailer/model');
 var app = express();
+var path = require('path');
+app.use("/images", express.static(__dirname + '/images'));
+
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({extended: true})); // support encoded bodies
 var connection = mysql.createConnection(
@@ -27,11 +28,10 @@ var connection = mysql.createConnection(
             port: 3306
         });
 app.use(function (req, res, next) {
-
     // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', '*');
     // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, HEAD, PATCH, DELETE');
     // Request headers you wish to allow
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
     // Set to true if you need the website to include cookies in the requests sent
@@ -67,10 +67,35 @@ app.get('/category', function (req, res) {
         }
     });
 });
+
+app.get('/offers/search', function (req, res) {
+    var search = req.query.searchQuery;
+    console.log('id=' + search);
+    var sql_query = "SELECT * FROM OFFER WHERE NAME LIKE  ?  OR DESCRIPTION LIKE ? AND STR_TO_DATE(END_DATE, '%m/%d/%Y')  > NOW()";
+    
+    connection.query(sql_query, ['%' + search + '%','%' + search + '%'], function (err, rows, fields) {
+        if (err) {
+            console.log('Connection result error ' + err);
+            res.writeHead(200, {'Content-Type': 'application/json'});
+            res.end({error: err});
+            res.end();
+        } else {
+            res.writeHead(200, {'Content-Type': 'application/json'});
+            res.end(JSON.stringify(rows));
+            res.end();
+        }
+    });
+});
+
 app.get('/offers', function (req, res) {
     var id = req.query.cat_id;
     console.log('id=' + id);
-    var sql_query = "SELECT * FROM OFFER WHERE CAT_ID = ? AND STR_TO_DATE(END_DATE, '%m/%d/%Y')  > NOW()";
+    var sql_query='';
+    if(id==0){
+         sql_query = "SELECT * FROM OFFER WHERE CAT_ID != ? AND STR_TO_DATE(END_DATE, '%m/%d/%Y')  > NOW()";
+    }else{
+         sql_query = "SELECT * FROM OFFER WHERE CAT_ID = ? AND STR_TO_DATE(END_DATE, '%m/%d/%Y')  > NOW()";
+    }
     connection.query(sql_query, id, function (err, rows, fields) {
         if (err) {
             console.log('Connection result error ' + err);
@@ -92,73 +117,33 @@ app.post('/grabOffers', function (req, res) {
 });
 
 function sendMail(user, options) {
-    // Not the movie transporter!
     console.log('options object : ' + JSON.stringify(options));
-    var transporter = nodemailer.createTransport({
-        service: 'Gmail',
-        auth: {
-            user: 'graburlatestoffers@gmail.com', // Your email id
-            pass: 'Offers@123' // Your password
-        }
-    });
-    var toAddress = isEmpty(user.email) ? 'pavanin24@gmail.com' : user.email;
-    var subject = ejs.render('Grab Your Offers <%= email %>', user);
-    var text = ejs.render('Activate your account by clicking this link <%= alink %>', options);
-    if (options.content) {
-        text += '\n ' + JSON.stringify(options.content);
-    }
-    console.log('mail text : ' + text);
-
-    var mailOptions = {
-        from: 'Grab UrOffers <graburlatestoffers@gmail.com>', // sender address
-        to: toAddress, // list of receivers
-        subject: subject, // Subject line
-        text: text
-    };
-
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log('Message failed');
-        } else {
-            console.log('Message sent: ' + info.response);
-        }
-    });
+     var locals = {
+        email: user.email,
+        subject: options.subject,
+        name: user.username,
+        activationUrl: options.alink
+      };
+      console.log('locals obj : '+JSON.stringify(locals));
+      mailer.sendOne('welcome', locals);
 }
 function sendOfferMail(req, res, user, options) {
-    // Not the movie transporter!
-    console.log('options object : ' + JSON.stringify(options));
-    var transporter = nodemailer.createTransport({
-        service: 'Gmail',
-        auth: {
-            user: 'graburlatestoffers@gmail.com', // Your email id
-            pass: 'Offers@123' // Your password
-        }
-    });
-    var toAddress = isEmpty(user.email) ? 'pavanin24@gmail.com' : user.email;
-    var subject = ejs.render('Your Shortlisted Offers List <%= username %>\n', user);
-    var text = "";
-    if (options.content) {
-        text += '\n ' + JSON.stringify(options.content);
-    }
-    console.log('mail text : ' + text);
+    
+    var locals = {
+        email: user.email,
+        subject: options.subject,
+        name: user.username,
+        offers: options.content
+      };
+     console.log('exporting offers : '+JSON.stringify(locals.offers));
+     mailer.sendOne('offers', locals);
+    var response = {};
+    response.status = "success";
+    response.message ="Sent your selected offers to your registered email..";
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.end(JSON.stringify(response));
+    res.end();
 
-    var mailOptions = {
-        from: 'Grab UrOffers <graburlatestoffers@gmail.com>', // sender address
-        to: toAddress, // list of receivers
-        subject: subject, // Subject line
-        text: text
-    };
-
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-            res.end('error');
-        } else {
-            console.log('Message sent: ' + info.response);
-            res.end('Sent');
-            res.end();
-        }
-    });
 }
 app.listen(3333, function () {
     console.log('GrabUrOffer app listening on port 3333!');
@@ -250,10 +235,11 @@ app.post('/login', function (req, res) {
                 res.end(JSON.stringify(response));
                 res.end();
             } else {
-                console.log('rows: ' +rows.length);
+                console.log('row data: ' +rows[0]);
                 if (rows.length > 0) {
                     var response = {};
                     response.status = "success";
+                    response.user = rows[0];
                     response.message = params[0]+" your login is successful...";
                     res.writeHead(200, {'Content-Type': 'application/json'});
                     res.end(JSON.stringify(response));

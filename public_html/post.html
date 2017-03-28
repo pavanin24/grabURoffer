@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<!--
+Student Info: Name=Pavanitha Kalyanam, ID=19361 
+Subject: CS595(G)_GrabUrOffer_Spring_2017 
+Author: KrishnaReddy 
+Filename: post.html 
+Date and Time: Mar 26, 2017 2:06:51 PM  
+Project Name: GrabUrOfferProject 
+-->
+
+<html>
+<head>
+    <style>
+        .header img {
+            float: left;
+            width: 100px;
+            height: 100px;
+            background: #555;
+        }
+        .header h1 {
+           position: relative;
+            top: 18px;
+            left: 10px;
+            color:red;
+        }
+        .post 
+        {
+            height:600px;
+            width:190px;
+            margin:auto;
+            border:1px #CCC solid;
+            padding:10px;
+        }
+        .post input 
+        {
+            padding:5px;
+            margin:5px
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+        .cancelbtn {
+            padding: 14px 20px;
+            background-color: #f44336;
+        }
+        .cancelbtn,.postbtn {
+            float: left;
+            width: 50%;
+        }
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+        @media screen and (max-width: 300px) {
+            .cancelbtn, .postbtn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="images/logo.png" style="width:150px;height:75px;">
+        <h1 style="text-align:center;"><i>Post the offer</i></h1>
+        <br>
+    </div>
+    <form action="file:///C:/action_page.php" style="/* border:1px solid #ccc */">
+        <div class="post">
+            <label><b>Provider of the offer:</b></label>
+            <input type="text" placeholder="Enter provider for the offer" name="pname" required="">
+            <br><br>
+            <label><b>Description:</b></label>
+            <input type="text" placeholder="Description of the offer" name="desc" required="">
+            <br><br>
+            <label><b>Image/link: </b></label>
+            <input type="file" accept="image/*" capture="camera" required>
+            <br><br>
+            <label><b>Category: </b></label>
+            <select>
+                <option value="Select">Select</option>
+                <option value="Apparels">Apparels</option>
+                <option value="Food & Beverages">Food & Beverages</option>
+                <option value="Furniture">Furniture</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Others">Others</option>
+            </select>
+            <br><br>
+            <label><b>Expiry date: </b></label>
+            <input type="date" placeholder="Enter expiry date" name="expdate" required>
+            <br><br>
+            <label><b>Start date: </b></label>
+            <input type="date" placeholder="Enter start date" name="startdate">
+            <br><br>
+            <p>By posting this offer you agree to our <a href="terms.php">Terms & Conditions</a>.</p>
+            <div class="clearfix">
+                <button type="button" class="cancelbtn">Cancel</button>
+                <button type="submit" class="postbtn">Post</button>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

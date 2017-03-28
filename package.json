@@ -14,10 +14,13 @@
     "body-parser": "^1.17.0",
     "crypto": "0.0.3",
     "ejs": "^2.5.6",
+    "email-templates": "^2.5.4",
     "express": "^4.14.1",
     "hashcode": "^1.0.3",
+    "jade": "^1.11.0",
     "mysql": "^2.13.0",
     "node-rsa": "^0.4.2",
+    "node-sass": "^4.5.1",
     "nodemailer": "^3.1.4"
   },
   "description": "Provide the offers and deals from multiple vendors etc.,",

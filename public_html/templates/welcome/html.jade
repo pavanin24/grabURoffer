@@ -1,0 +1,26 @@
+//- 
+    Student Info: Name=Pavanitha Kalyanam, ID=19361 
+    Subject: CS595(G)_GrabUrOffer_Spring_2017 
+    Author: KrishnaReddy 
+    Filename: html.jade 
+    Date and Time: Mar 26, 2017 4:50:44 PM  
+    Project Name: GrabUrOfferProject 
+      
+doctype html
+html(lang="en")
+  head
+    title GrabUrOffers activation link...
+  body   
+    div(class="main",id="main")
+        h3 Congrats&nbsp;
+            span(class="captalize") #{locals.name} 
+            &nbsp;Welcome to grabUrOffers.com
+
+          p Please confirm your email address by clicking the link below.
+
+        a(href=locals.activationUrl, class="btn-primary") Confirm Email Address
+        p Your email address is : #{locals.email}
+        br
+        p GrabUrOffers Team
+  
+

@@ -14,7 +14,6 @@ Project Name: GrabUrOfferProject
         <script type="text/JavaScript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
         <link rel="stylesheet" type="text/css" href="offers.css">
         <script type="text/JavaScript" >
-            
             var offers=[];
         
              var cartData=[];
@@ -160,25 +159,16 @@ Project Name: GrabUrOfferProject
        
         function checkIfUserLoggedIn() {
 
-            var loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+            var loginObject = JSON.parse(localStorage.getItem("loggedInUser"));
             console.log('typeof loggedInUser : '+typeof loggedInUser);
-            console.log(loggedInUser);
-            if (loggedInUser) {
-               return loggedInUser;
+            console.log(loginObject);
+            if (loginObject.user) {
+               return loginObject;
             }else {
                 window.location = "login.html";
             }
         }
-        
-        function saveOffers () {
-            var isUserLoggedIn= checkIfUserLoggedIn();
-           
-           if(isUserLoggedIn){
-            console.log("saving the grabbed offers...");
-            $('#cart').css({'color': 'red','font-weight' : 'bold'});
-            $('#cart').html("Sending your offers to your registered email...");
-            var userId=isUserLoggedIn.ID;
-            console.log('UserId : '+userId);
+        function grabOffers(userId){
             $.ajax({
                 url: 'http://localhost:3333/grabOffers?userId='+userId,
                 type: 'POST',
@@ -186,14 +176,38 @@ Project Name: GrabUrOfferProject
                 data: JSON.stringify(cartData),
                 dataType: 'json',
                 success: function (data) {
-                    clearCart();
-                    $("#cartBody").css("visibility", "hidden");
+                    console.log('response: '+JSON.stringify(data));
+                    $('#cart').css({'color': 'green','font-weight' : 'bold'});
+                    $('#cart').html("Done... offers sent to your registered email...");
+                    setTimeout(function(){
+                        clearCart();
+                        $("#cartBody").css("visibility", "hidden");
+                    }, 2000);
+                    
                 },
                 error: function (textStatus) {
-                    console.log("error while saving player...");
-                    $('#loading').html("error occured while saving the game info..." + textStatus);
+                    console.log("error while sending offers...");
+                    $('#cart').html("Error while sending offers..." + textStatus);
                 }
             });
+        }
+        
+        function saveOffers () {
+            var currUser= checkIfUserLoggedIn();
+           
+           if(currUser){
+            console.log("saving the grabbed offers...");
+            $('#cart').css({'color': 'red','font-weight' : 'bold'});
+            $('#cart').html("Sending your offers to your registered email...");
+            var userId=currUser.user.ID;
+            console.log('UserId : '+userId);
+            if(userId){
+                setTimeout(function(){
+                  grabOffers(userId);
+                }, 2000);
+            }else{
+                alert('User not looged in ....');
+            }
         }
    };
         

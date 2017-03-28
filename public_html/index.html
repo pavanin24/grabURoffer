@@ -1,93 +1,309 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8"/>
-		<title>grabURoffer</title>
-        <link rel="stylesheet" href="main.css"/>
-        
-		<header>
-		<nav class= "top">
-		<ul>
-			<li><a href="login.html">LOGIN</a></li>
-			<li><a href="signup.html">SIGNUP</a></li>
-			</ul>
-		</nav>
-		</header>
-        
-	</head>
-	<body>
-	<div class ="container">
-		<header class="head">
-			<img src="images/logo.png" alt="logo area" class="logo"/>
-			<img src="images/IMG_1598.jpeg" alt="logo area" class="back"/>
-			
-		</header>
-		
-		<div class="clear"></div>
-		<nav class="top_nav">
-	
-		<ul>
-		<li><a href="category.html">CATEGORIES</a></li>
-		<div class ="search_wrapper">
-		<input type="text" placeholder="Search your item..."
-		maxlength="30" id="search">
-		<input 
-		type="submit" 
-		value="&#128269; " id="submit">
-		</div>
-		</ul>
-		
-		</nav>
-		
-		<div class="clear"></div>
-			<div class="clear"></div>
-		
-		<section class="content">
-                  
-		<a href="login.html" type="text" >
-				<img src="./images/apparel.jpg" alt="logo area" hspace="5"  vspace="5" class="im"/>
-				
-				<img src="./images/babywarmset.jpg" alt="logo area" hspace="5" vspace="5" class="im"/>	
-				<img src="./images/buffet.jpg" alt="logo area" hspace="5" vspace="5" class="im"/>	
-				<img src="./images/bunkbed.jpg"logo area" hspace="5" vspace="5" class="im"/>	
-				<img src="./images/compact.jpg" alt="logo area"  hspace="5" vspace="5" class="im"/>	
-				<img src="./images/furniture.jpg" alt="logo area" hspace="5" vspace="5" class="im"/>	
-				<img src="./images/gapjeans.jpg" alt="logo area" hspace="5" vspace="5" class="im"/>	
-				<img src="./images/kids.jpg" alt="logo area" hspace="5" vspace="5" class="im"/>	
-				<img src="./images/mixer.jpg" alt="logo area" hspace="5" vspace="5" class="im"/>	
-				<img src="./images/nikeshoe.jpg" alt="logo area" hspace="5" vspace="5" class="im"/>	
-				<img src="./images/nikeshoe1.jpg" alt="logo area" hspace="5" vspace="5" class="im"/>	
-				<img src="./images/oven.jpg" alt="logo area" hspace="5" vspace="5" class="im"/>	
-				<img src="./images/pizza.jpg" alt="logo area" hspace="5" vspace="5" class="im"/>	
-				<img src="./images/reclainer.jpg" alt="logo area" hspace="5" vspace="5" class="im"/>	
-				<img src="./images/systemtable.jpg" alt="logo area" hspace="5" vspace="5" class="im"/>	
-				</a>
-			
+    <head>
+        <meta charset="utf-8"/>
+        <title>grabURoffer</title>
+        <script type="text/JavaScript" src="jquery.min.js"></script>
+        <link rel="stylesheet" href="main.css"/> 
+        <script>
+            
+                function checkIfUserLoggedIn() {
+                    debugger;
+                    var loginObject = JSON.parse(localStorage.getItem("loggedInUser"));
+                    console.log('typeof loggedInUser : '+typeof loggedInUser);
+                    console.log(loginObject);
+                    if (loginObject && loginObject.user) {
+                        console.log('if');
+                        $('#loginLink').css("display", "none");
+                        $('#signupLink').css("display", "none");
+                        $('#logoutLink').css("display", "block");
+                        return loginObject;
+                    }else {
+                        console.log('if');
+                        $('#loginLink').css("display", "none");
+                        $('#signupLink').css("display", "block");
+                        $('#logoutLink').css("display", "none");
+                    }
+            
+                }
+          $( document ).ready(function() {
+                console.log( "dom ready!" );
+                 checkIfUserLoggedIn();
+
+            });
+       
+        </script>
+    </head>
+
+    <body >
+        <header>
+            <nav class= "top">
+                <ul style="padding-bottom: 15px;">
+                    <li id="loginLink"  style="display: block"><a href="login.html">LOGIN</a></li>
+                    <li id="logoutLink" onclick="logout()" style="display: block"><a href="index.html">LOGOUT</a></li>
+                    <li id="signupLink" style="display: block"><a href="signup.html">SIGNUP</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div class ="container">
+            <header class="head">
+                <div style="display: table-cell;max-width: 250px"><img src="images/logo.png" alt="logo area" class="logo"/></div>
+                <div style="display: table-cell;max-width: 800px;max-height: 50px;"><img src="images/IMG_1598.jpeg" alt="logo area" class="back"/></div>
+            </header>
+
+            <div class="clear"></div>
+            <nav class="top_nav">
+                <ul>
+                    <li>
+                        <input type="text" placeholder="Search your item..."
+                               maxlength="30" onkeyup="searchOffers(this.value)" id="search">
+                        <input type="submit"  value="&#128269; " id="submit">
+                    </li>
+                    <li class="category">
+                            <a href="index.html">Category</a>
+                            <select id="myCategory" class="selCategory" onchange="getProductsByCategory()">
+                                <option value="0">Select</option>
+                            </select>
+                    </li>
                     
-                   
-		</section>
-		
-		<aside>
-			
-		</aside>
-		
-		
-		
-		<footer>
-			<ul>
-		
-			<div class ="foot">
-			
-			<input id ="email" type ="email" placeholder="Enter Your Email..." >
-			<a href="login.html" type="text" >
-			<button type="submit" class="signup">SUBSCRIBE</button>
-			</a>
-			
-			</div>
-			</ul>
-		</footer>
-		
-	</div>	
-	
-	</body>
+                </ul>
+            </nav>
+            <section class="content">
+                <h2>&nbsp;</h2>
+                <div id="productsView">
+                    <div class="offerView" id="products">
+                        <div id="productsData">
+                            <div id="noData" ></div>
+                        </div>
+                    </div>
+                    <div class="cartView" id="cartBody"> 
+                        <div id="cart">
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+           
+            <footer>
+                <ul>
+                    <li>
+                        <div class ="foot">
+                            <input id ="email" type ="email" placeholder="Enter Your Email..." >
+                            <a href="login.html" class="signup">SUBSCRIBE</a>
+                        </div>
+                    </li>
+                </ul>
+            </footer>
+
+        </div>	
+        <script>
+            
+            var offers=[];
+            var cartData=[];
+            //document.getElementById('errMsg').style.display="none";
+            window.onload = function(){
+                getCategories();
+                $("#cart").css("visibility", "hidden");
+                cartData = JSON.parse(localStorage.getItem("cartData"));
+                if (cartData === null) {
+                    cartData = [];
+                }else{
+                    displayCart();
+                }               
+           };
+
+            function getCategories(){
+                $.ajax({
+                    type: "GET",
+                    headers: {'Content-Type': 'application/json'},
+                    url: "http://localhost:3333/category"
+                }).done(function (data) {
+                    //iterate over the data and append a select option
+                    $.each(data, function(key, val){
+                    $('#myCategory')
+                    .append($('<option>', { value : val.ID })
+                    .text(val.NAME)); 
+                    });
+                    getProductsByCategory();       
+                });
+
+            }
+
+            function getProductsByCategory(){
+                $('#productsData').empty();
+                var id = ($('#myCategory').val()=='') ? 0 : $('#myCategory').val() ;
+                var prodUrl='http://localhost:3333/offers?cat_id='+id;
+                $.ajax({
+                    type: "GET",
+                    headers: {'Content-Type': 'application/json'},
+                    url: prodUrl
+                }).done(function (data) {
+                    offers=data;
+                    //iterate over the data and append a select option
+                    if(data!==undefined && data.length >0){
+                        $( "#productsData" ).append("");
+                        $.each(data, function(key, val){
+                            createDataTable(key,val);   
+                        }); 
+                    }else{
+                        $( "#productsData" ).append( "<p class='errMsg'>No Results found !!! </p>" );
+                    }
+                });
+            }
+
+            function createDataTable(key,val){
+
+            var $pbox= $("<div>", {id: "pbox", "class": "prodBox"});
+            var $pdesc = $("<div>", {id: "pdesc", "class": "prodDesc"});
+            var $divimg = $("<div>", {id: "pimg", "class": "prodImage"});
+            var $img = $("<img>", {id: "imageId", "src": './images/'+val.IMAGE});
+            $divimg.append($img);
+            var $dtable = $("<table>", {id: "infoTable", "class": "dataTable"});
+            var tr = $('<tr />');
+            var tdn = $('<td />',{'class': "nameCol"});
+            var tdv = $('<td />',{'class': "ValCol"});
+
+            for (var prop in val) {
+            if(prop==='ID' || prop==='IMAGE' || prop==='CAT_ID' ){
+            continue;
+            }
+            var trNew = tr.clone().html('');
+            var tdKey = tdn.clone().html((prop==='DESCRIPTION') ? ' Desc: ' :  ((prop==='START_DATE') ? 'Started On : ' : ((prop==='END_DATE') ? 'Expires on : ' : ((prop==='NAME') ? 'Name : ' : prop +' : '))));
+            var tdVal = tdv.clone().html(val[prop]);
+            trNew.append(tdKey,tdVal);
+            $dtable.append(trNew);
+            }
+            var rb= $('<input id="add2Cart" type="button" value="Save this offer" onclick="return addTocart('+val.ID+');" />');
+            $pdesc.append($dtable,rb);
+
+            $pbox.append($divimg,$pdesc);
+            $("#productsData").append($pbox);
+            }              
+
+            function addTocart(id){ 
+            console.log('adding offer '+id+' to cart');
+            cartData.push(getOffer(id)); 
+            localStorage.setItem("cartData", JSON.stringify(cartData));
+            cartData = JSON.parse(localStorage.getItem("cartData"));
+            displayCart();
+            }
+
+            function getOffer(id){
+            for (var i=0; i < offers.length; i++) {
+            if (offers[i].ID === id) {
+            return offers[i];
+            }
+            } 
+            }
+
+            function displayCart(){ 
+
+            if (cartData.length == 0) {
+            $("#cart").css("visibility", "hidden");
+            //                 var row = "<div>Your Cart is Epmty !!!</div>";
+            //                $citem.append(row);
+            //                $("#cartBody").append(row);
+            return;
+            }
+            $("#cart").css("visibility", "visible");
+            $("#cart").empty();
+
+            var header= $('<h2 class="cartHeader">Shortlisted Offers</h2>');
+            $("#cart").append(header);
+
+            for (var i in cartData) {
+            var $citem= $("<div>", {id: "cItem", "class": "cItem"});
+            var button= $('<input id="checkout" type="button" value="Grab Offers" onClick="saveOffers();"; />');
+            var item = cartData[i];
+            //                 var $divimg = $("<div>", {id: "pimg", "class": "cartImage"});
+            //                 var $img = $("<img>", {id: "imageId", "src": './images/small/'+item.IMAGE});
+            //                 $divimg.append($img);
+            var row = "<div><tr><td>" + item.NAME + "</td></tr><br/><tr><td>" +
+            item.DESCRIPTION + "</td></tr><br/><tr><td><span>Expires on " + item.END_DATE + "</span></td></tr><br/><tr><td>"
+            + "<button onclick='deleteItem(" + i + ")'>Delete</button></td></tr><tr></tr></div>";
+            $citem.append(row);
+            $("#cart").append($citem);
+            }
+            $("#cart").append(button);
+            }
+
+            function deleteItem(index){
+            cartData.splice(index,1); // delete item at index
+            localStorage.setItem("cartData", JSON.stringify(cartData));
+            displayCart();
+            }
+
+            function clearCart(){
+            localStorage.removeItem("cartData");
+            cartData = JSON.parse(localStorage.getItem("cartData")) || [];
+            displayCart();
+            }
+
+            function grabOffers(userId){
+            $.ajax({
+            url: 'http://localhost:3333/grabOffers?userId='+userId,
+            type: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            data: JSON.stringify(cartData),
+            dataType: 'json',
+            success: function (data) {
+            console.log('response: '+JSON.stringify(data));
+            $('#cart').css({'color': 'green','font-weight' : 'bold'});
+            $('#cart').html("Done... offers sent to your registered email...");
+            setTimeout(function(){
+            clearCart();
+            $("#cartBody").css("visibility", "hidden");
+            }, 2000);
+
+            },
+            error: function (textStatus) {
+            console.log("error while sending offers...");
+            $('#cart').html("Error while sending offers..." + textStatus);
+            }
+            });
+            }
+
+            function saveOffers () {
+            var currUser= checkIfUserLoggedIn();
+
+            if(currUser){
+            console.log("saving the grabbed offers...");
+            $('#cart').css({'color': 'red','font-weight' : 'bold'});
+            $('#cart').html("Sending your offers to your registered email...");
+            var userId=currUser.user.ID;
+            console.log('UserId : '+userId);
+            if(userId){
+            setTimeout(function(){
+            grabOffers(userId);
+            }, 2000);
+            }else{
+            alert('User not looged in ....');
+            }
+            }
+            };
+
+            function searchOffers(query){
+                $('#productsData').empty();
+                var prodUrl='http://localhost:3333/offers/search?searchQuery='+query;
+                $.ajax({
+                    type: "GET",
+                    headers: {'Content-Type': 'application/json'},
+                    url: prodUrl
+                }).done(function (data) {
+                    offers=data;
+                    //iterate over the data and append a select option
+                    if(data!==undefined && data.length >0){
+                        $( "#productsData" ).append("");
+                        $.each(data, function(key, val){
+                            createDataTable(key,val);   
+                        }); 
+                    }else{
+                        $( "#productsData" ).append( "<p class='errMsg'>No Results found !!! </p>" );
+                    }
+                 });    
+            }
+
+        </script>
+    </body>
 </html>
