@@ -10,6 +10,7 @@ Project Name: GrabUrOfferProject
 
 <html>
 <head>
+     <script type="text/JavaScript" src="jquery.min.js"></script>
     <style>
         .header img {
             float: left;
@@ -71,39 +72,84 @@ Project Name: GrabUrOfferProject
         <h1 style="text-align:center;"><i>Post the offer</i></h1>
         <br>
     </div>
-    <form action="file:///C:/action_page.php" style="/* border:1px solid #ccc */">
+    <form method="POST" enctype="multipart/form-data" id="fileUploadForm">
         <div class="post">
             <label><b>Provider of the offer:</b></label>
-            <input type="text" placeholder="Enter provider for the offer" name="pname" required="">
+            <input type="text" placeholder="Enter provider for the offer" id="pname" name="pname" required="">
             <br><br>
             <label><b>Description:</b></label>
-            <input type="text" placeholder="Description of the offer" name="desc" required="">
+            <input type="text" placeholder="Description of the offer" id="desc" name="desc" required="">
             <br><br>
-            <label><b>Image/link: </b></label>
-            <input type="file" accept="image/*" capture="camera" required>
+            <label><b>Image: </b></label>
+            <input type="file" id="offerImage" name="offerImage" accept="image/*" capture="camera" required>
             <br><br>
             <label><b>Category: </b></label>
-            <select>
-                <option value="Select">Select</option>
-                <option value="Apparels">Apparels</option>
-                <option value="Food & Beverages">Food & Beverages</option>
-                <option value="Furniture">Furniture</option>
-                <option value="Electronics">Electronics</option>
-                <option value="Others">Others</option>
-            </select>
+           <select id="myCategory"> </select>
+             <input type="hidden" id="category" name="category">
             <br><br>
             <label><b>Expiry date: </b></label>
-            <input type="date" placeholder="Enter expiry date" name="expdate" required>
+            <input type="date" placeholder="Enter expiry date" id="edate" name="edate" required>
             <br><br>
             <label><b>Start date: </b></label>
-            <input type="date" placeholder="Enter start date" name="startdate">
+            <input type="date" placeholder="Enter start date" id="sdate" name="sdate">
             <br><br>
             <p>By posting this offer you agree to our <a href="terms.php">Terms & Conditions</a>.</p>
             <div class="clearfix">
                 <button type="button" class="cancelbtn">Cancel</button>
-                <button type="submit" class="postbtn">Post</button>
+                <button type="button" class="postbtn" onclick="postOffer()">Post</button>
             </div>
         </div>
     </form>
+    <script>
+        $(document).ready(function () {
+                getCategories();//load categories to drop down list                
+           });
+           
+        function postOffer() {
+        
+            var catId=$( "#myCategory" ).val();
+            var category =$("#category" ).val(catId);
+            console.log('category Selected :'+category);
+            var form = $('#fileUploadForm')[0];
+            var data = new FormData(form);
+            console.log('conv date : '+new Date($("#sdate" ).val()));
+            $.ajax({
+                url: 'http://localhost:3333/post_offer?cat_id='+catId,
+                data: data,
+                cache: false,
+                enctype: 'multipart/form-data',
+                contentType: false,
+                processData: false,
+                type: 'POST',
+                success: function (c) {
+                     //code here if you want to show any success message
+                     alert("fileuploaded successfully ....");
+                     window.location = 'index.html';
+                }
+            });
+            return false;
+        }
+                   
+ function getCategories(){
+      $.ajax({
+            type: "GET",
+            headers: {'Content-Type': 'application/json'},
+            url: "http://localhost:3333/category"
+        }).done(function (data) {
+            //iterate over the data and append a select option
+            console.log('categories loaded....');
+            $.each(data, function(key, val){
+                $('#myCategory')
+                  .append($('<option>', { value : val.ID })
+                  .text(val.NAME)); 
+            });
+        });
+        
+     }  
+          
+</script>
 </body>
+
+
+    
 </html>

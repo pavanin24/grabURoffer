@@ -11,7 +11,7 @@ Project Name: GrabUrOfferProject
     <head>
         <title>category</title>
 
-        <script type="text/JavaScript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+        <script type="text/JavaScript" src="jquery.min.js"></script>
         <link rel="stylesheet" type="text/css" href="offers.css">
         <script type="text/JavaScript" >
             var offers=[];
@@ -112,9 +112,9 @@ Project Name: GrabUrOfferProject
                     }
                 } 
             }
-         
+        
           function displayCart(){ 
-            
+           
             if (cartData.length == 0) {
                 $("#cart").css("visibility", "hidden");
 //                 var row = "<div>Your Cart is Epmty !!!</div>";
@@ -191,7 +191,7 @@ Project Name: GrabUrOfferProject
                 }
             });
         }
-        
+       
         function saveOffers () {
             var currUser= checkIfUserLoggedIn();
            

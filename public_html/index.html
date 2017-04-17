@@ -17,12 +17,14 @@
                         $('#loginLink').css("display", "none");
                         $('#signupLink').css("display", "none");
                         $('#logoutLink').css("display", "block");
+                        $('#postLink').css("display", "block");
                         return loginObject;
                     }else {
                         console.log('if');
-                        $('#loginLink').css("display", "none");
+                        $('#loginLink').css("display", "block");
                         $('#signupLink').css("display", "block");
                         $('#logoutLink').css("display", "none");
+                        $('#postLink').css("display", "none");
                     }
             
                 }
@@ -40,7 +42,8 @@
             <nav class= "top">
                 <ul style="padding-bottom: 15px;">
                     <li id="loginLink"  style="display: block"><a href="login.html">LOGIN</a></li>
-                    <li id="logoutLink" onclick="logout()" style="display: block"><a href="index.html">LOGOUT</a></li>
+                    <li id="logoutLink" style="display: block"><a href="#" onclick="logOutUser();">LOGOUT</a></li>
+                    <li id="postLink" onclick="post()" style="display: block"><a href="post.html">POST</a></li>
                     <li id="signupLink" style="display: block"><a href="signup.html">SIGNUP</a></li>
                 </ul>
             </nav>
@@ -48,7 +51,7 @@
         <div class ="container">
             <header class="head">
                 <div style="display: table-cell;max-width: 250px"><img src="images/logo.png" alt="logo area" class="logo"/></div>
-                <div style="display: table-cell;max-width: 800px;max-height: 50px;"><img src="images/IMG_1598.jpeg" alt="logo area" class="back"/></div>
+                <div style="display: table-cell;max-width: 800px;max-height: 50px;"><img src="images/IMG_1598.JPEG" alt="logo area" class="back"/></div>
             </header>
 
             <div class="clear"></div>
@@ -85,16 +88,7 @@
             </section>
 
            
-            <footer>
-                <ul>
-                    <li>
-                        <div class ="foot">
-                            <input id ="email" type ="email" placeholder="Enter Your Email..." >
-                            <a href="login.html" class="signup">SUBSCRIBE</a>
-                        </div>
-                    </li>
-                </ul>
-            </footer>
+            <footer id="footer"> <span style="color: #FFF; ">©2017 Spring CS595(G)_Capstone:<em> grabURoffer.com.</em> All rights reserved</span></footer>
 
         </div>	
         <script>
@@ -303,7 +297,12 @@
                     }
                  });    
             }
-
+            function logOutUser(){
+                localStorage.removeItem('loggedInUser');
+                
+                alert('User logged out successfully !!');
+                window.location = "index.html";
+            }
         </script>
     </body>
 </html>

@@ -15,6 +15,10 @@ var router = express.Router();
 var mailer = require('./mailer/model');
 var app = express();
 var path = require('path');
+var fs=require('fs');
+var multer  = require('multer')
+var upload = multer({ dest: './images/'});
+
 app.use("/images", express.static(__dirname + '/images'));
 
 app.use(bodyParser.json()); // support json encoded bodies
@@ -70,7 +74,7 @@ app.get('/category', function (req, res) {
 
 app.get('/offers/search', function (req, res) {
     var search = req.query.searchQuery;
-    console.log('id=' + search);
+//    console.log('id=' + search);
     var sql_query = "SELECT * FROM OFFER WHERE NAME LIKE  ?  OR DESCRIPTION LIKE ? AND STR_TO_DATE(END_DATE, '%m/%d/%Y')  > NOW()";
     
     connection.query(sql_query, ['%' + search + '%','%' + search + '%'], function (err, rows, fields) {
@@ -92,9 +96,10 @@ app.get('/offers', function (req, res) {
     console.log('id=' + id);
     var sql_query='';
     if(id==0){
-         sql_query = "SELECT * FROM OFFER WHERE CAT_ID != ? AND STR_TO_DATE(END_DATE, '%m/%d/%Y')  > NOW()";
+        //sql_query = "SELECT * FROM OFFER WHERE CAT_ID != ? AND STR_TO_DATE(END_DATE, '%m/%d/%Y')  > NOW()";
+         sql_query = "SELECT * FROM OFFER WHERE CAT_ID != ? AND END_DATE  >= CURDATE()";
     }else{
-         sql_query = "SELECT * FROM OFFER WHERE CAT_ID = ? AND STR_TO_DATE(END_DATE, '%m/%d/%Y')  > NOW()";
+         sql_query = "SELECT * FROM OFFER WHERE CAT_ID = ? AND END_DATE  >= CURDATE()";
     }
     connection.query(sql_query, id, function (err, rows, fields) {
         if (err) {
@@ -296,5 +301,52 @@ function loadUser(req, res) {
     });
 }
 
+app.post('/post_offer', upload.single('offerImage'), function(req, res) {
+    console.log("body: "+JSON.stringify(req.body));
+    var fileName=req.file.originalname;
+    var file = __dirname + '\\images\\' + req.file.originalname;
+    console.log('fileName : '+fileName);
+    console.log('file path : '+req.file.path);
+    console.log("req files: "+JSON.stringify(req.file));
+    console.log('params [' + JSON.stringify(req.body) + ']');
+    
+    if (isEmpty(req.body.pname) || isEmpty(req.body.desc) || isEmpty(fileName) || isEmpty(req.body.category) || isEmpty(req.body.sdate) || isEmpty(req.body.edate) ) {
+        return res.send({"status": "Error -  missing some input information", "message": "missing information"});
+    }else {
+        
+        var sdate=req.body.sdate.split("/").reverse().join("-");
+        var edate =req.body.edate.split("/").reverse().join("-"); //convert date
+        console.log(sdate+' : '+sdate );
+        var params = [req.body.pname, req.body.desc, fileName, req.body.category, edate, sdate];
+        console.log("params : "+params);
+        var sql_query = "INSERT INTO OFFER (`NAME`, `DESCRIPTION`, `IMAGE`, `CAT_ID`, `END_DATE`,`START_DATE`) VALUES(?,?,?,?,?,?)";
+        
+        //insert offer data to Offer table
+        connection.query(sql_query, params, function (err, rows, fields) {
+            if (err) {
+                console.log('Connection result error ' + err);
+                res.writeHead(200, {'Content-Type': 'application/json'});
+                res.end({error: err});
+                res.end();
+            } else {
+                //on insert success, upload image to /images/ folder
+                fs.rename(req.file.path, file , function(err) {
+                if (err) {
+                  console.log(err);
+                  res.send(500);
+                } else {
+                  res.json({
+                    status : 'Success',
+                    message: 'Congratulations ... Offer is posted successfully',
+                    filename: req.file.filename
+                  });
+                }
+              });
+            }
+        });
+
+    }
+  
+});
 
       
